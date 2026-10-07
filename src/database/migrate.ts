@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { existsSync } from "fs";
 import type { Pool } from "mysql2/promise";
 
 
@@ -24,8 +25,8 @@ export async function migrate(pool: Pool): Promise<void> {
         )
     );
 
-    // Carpeta de migraciones
-    const carpeta = path.join(__dirname, "migrations");
+    const candidatas = [path.join(__dirname, "migrations"), path.join(process.cwd(), "src", "database", "migrations"),]; 
+    const carpeta = candidatas.find((ruta) => existsSync(ruta)); if (!carpeta) { throw new Error(`No se encontró la carpeta de migraciones. Probé: ${candidatas.join(", ")}`); }
 
     // Leer archivos .sql
     let archivos = await fs.readdir(carpeta);
