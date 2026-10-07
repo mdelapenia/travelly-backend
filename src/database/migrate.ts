@@ -1,10 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
 import type { Pool } from "mysql2/promise";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export async function migrate(pool: Pool): Promise<void> {
     // Crear tabla de migraciones
